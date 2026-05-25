@@ -1,4 +1,4 @@
-# Avidus RBAC Assignment
+# RBAC System
 
 A Role-Based Access Control (RBAC) system with a Node.js/Express/MongoDB backend and a React (Vite) frontend.
 
