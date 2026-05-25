@@ -81,8 +81,20 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 app.use('/api/admin', adminRoutes);
 
-// ─── 404 Handler ─────────────────────────────────────────────────────────────
-app.use(notFound);
+// ─── 404 Handler / Static Files ──────────────────────────────────────────────
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  // Serve static files from the React frontend app
+  app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+  // Anything that doesn't match the above, send back index.html
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+  });
+} else {
+  // 404 Handler for development API
+  app.use(notFound);
+}
 
 // ─── Centralized Error Handler (must be last) ─────────────────────────────────
 app.use(errorHandler);
